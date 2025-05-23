@@ -38,7 +38,6 @@ class LeafNode(HTMLNode):
 
 
 class ParentNode(HTMLNode):
-    # constructor implemented in nomal way
     def __init__(self, tag, children, props=None):
         super().__init__(tag=tag, children=children, props=props)
 
