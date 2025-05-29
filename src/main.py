@@ -1,12 +1,25 @@
 from textnode import TextNode, TextType, text_node_to_html_node
 from htmlnode import HTMLNode, LeafNode, ParentNode
-from inline_markdown import split_nodes_delimiter, extract_markdown_images, extract_markdown_links
+from inline_markdown import (
+    split_nodes_delimiter,
+    extract_markdown_images,
+    extract_markdown_links,
+    split_nodes_image,
+    split_nodes_link,
+)
 
 
 def main():
-    # test extract_markdown_images function
-    text = "This is text with a link [to boot dev](https://www.boot.dev) and [to youtube](https://www.youtube.com/@bootdotdev)"
-    matches = extract_markdown_links(text)
-    print(matches)
+    # test split_nodes_link function
+    text2 = "[home](https://example.com) is where the heart is"
+    node2 = TextNode(text2, TextType.TEXT)
+    new_nodes = split_nodes_link([node2])
+    print(new_nodes)
+
+    # test split_nodes_image function
+    # text = "![start](https://example.com/start.png) some text in the middle ![end](https://example.com/end.png)"
+    # node = TextNode(text, TextType.TEXT)
+    # new_nodes = split_nodes_image([node])
+    # print(new_nodes)
 
 main()
