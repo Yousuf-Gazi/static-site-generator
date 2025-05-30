@@ -53,6 +53,7 @@ def split_nodes_image(old_nodes):
 
         if not matches:
             new_nodes.append(old_node)
+            continue
 
         for image_alt, image_url in matches:
             sections = remaining_text.split(f"![{image_alt}]({image_url})", 1)
@@ -83,6 +84,7 @@ def split_nodes_link(old_nodes):
 
         if not matches:
             new_nodes.append(old_node)
+            continue
 
         for link_text, link_url in matches:
             sections = remaining_text.split(f"[{link_text}]({link_url})", 1)
@@ -99,3 +101,14 @@ def split_nodes_link(old_nodes):
             new_nodes.append(TextNode(remaining_text, TextType.TEXT))
 
     return new_nodes
+
+
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]     # making it a list, because other function needs list of nodes
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+
+    return nodes

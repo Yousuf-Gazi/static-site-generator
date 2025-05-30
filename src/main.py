@@ -6,20 +6,15 @@ from inline_markdown import (
     extract_markdown_links,
     split_nodes_image,
     split_nodes_link,
+    text_to_textnodes,
 )
 
 
 def main():
     # test split_nodes_link function
-    text2 = "[home](https://example.com) is where the heart is"
-    node2 = TextNode(text2, TextType.TEXT)
-    new_nodes = split_nodes_link([node2])
+    text = "This is **text** with an _italic_ word and a `code block` and an ![obi wan image](https://i.imgur.com/fJRm4Vk.jpeg) and a [link](https://boot.dev)"
+    new_nodes = text_to_textnodes(text)
     print(new_nodes)
 
-    # test split_nodes_image function
-    # text = "![start](https://example.com/start.png) some text in the middle ![end](https://example.com/end.png)"
-    # node = TextNode(text, TextType.TEXT)
-    # new_nodes = split_nodes_image([node])
-    # print(new_nodes)
 
 main()
