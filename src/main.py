@@ -8,22 +8,16 @@ from inline_markdown import (
     split_nodes_link,
     text_to_textnodes,
 )
-from markdown_blocks import markdown_to_blocks
+from markdown_blocks import (
+    markdown_to_blocks,
+    block_to_block_type,
+)
 
 
 def main():
     # test test_markdown_to_blocks function
-    md = """
-This is **bolded** paragraph
-
-This is another paragraph with _italic_ text and `code` here
-This is the same paragraph on a new line
-
-- This is a list
-- with items
-"""
-    blocks = markdown_to_blocks(md)
-    print(blocks)
-
+    md = "1. First item\n2. Second item\n3. Third item"
+    block_type = block_to_block_type(md)
+    print(block_type)
 
 main()
