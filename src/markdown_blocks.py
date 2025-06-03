@@ -111,7 +111,7 @@ def quote_to_html_node(block):
         new_lines.append(line.lstrip(">").strip())
     content = " ".join(new_lines)
     children = text_to_children(content)
-    return ParentNode("blockquote", children)
+    return ParentNode(tag="blockquote", children=children)
 
 
 def ul_to_html_node(block):
@@ -120,8 +120,8 @@ def ul_to_html_node(block):
     for item in items:
         text = item[2:]
         children = text_to_children(text)
-        html_items.append(ParentNode("li", children))
-    return ParentNode("ul", html_items)
+        html_items.append(ParentNode(tag="li", children=children))
+    return ParentNode(tag="ul", children=html_items)
 
 
 def ol_to_html_node(block):
@@ -130,8 +130,8 @@ def ol_to_html_node(block):
     for item in items:
         text = item[3:]
         children = text_to_children(text)
-        html_items.append(ParentNode("li", children))
-    return ParentNode("ol", html_items)
+        html_items.append(ParentNode(tag="li", children=children))
+    return ParentNode(tag="ol", children=html_items)
 
 
 def block_to_html_node(block):
