@@ -8,10 +8,8 @@ from generate_page import generate_page
 
 dir_path_static = "./static"
 dir_path_public = "./public"
-
-from_path_dir = "./content/index.md"
-template_path_dir = "./template.html"
-dest_path_dir = "./public/index.html"
+dir_path_content = "./content"
+template_path = "./template.html"
 
 
 def main():
@@ -25,7 +23,11 @@ def main():
 
     # generate page
     print("Generating page...")
-    generate_page(from_path_dir, template_path_dir, dest_path_dir)
+    generate_page(
+        os.path.join(dir_path_content, "index.md"),
+        template_path,
+        os.path.join(dir_path_public, "index.html"),
+    )
 
 
 if __name__ == "__main__":
