@@ -2,6 +2,7 @@ from htmlnode import LeafNode
 from enum import Enum
 
 
+# Enum representing different types of text formatting.
 class TextType(Enum):
     TEXT = "text"
     BOLD = "bold"
@@ -11,6 +12,7 @@ class TextType(Enum):
     IMAGE = "image"
 
 
+# Represents a piece of text with formatting and optional URL.
 class TextNode:
     def __init__(self, text, text_type, url=None):
         self.text = text
@@ -18,6 +20,7 @@ class TextNode:
         self.url = url
 
     def __eq__(self, other):
+        # Enables comparison between TextNode instances.
         return (
             self.text == other.text
             and self.text_type == other.text_type
@@ -25,9 +28,11 @@ class TextNode:
         )
 
     def __repr__(self):
+        # Developer-friendly string representation for debugging.
         return f"TextNode({self.text}, {self.text_type.value}, {self.url})"
 
 
+# Converts a TextNode to a corresponding HTML LeafNode.
 def text_node_to_html_node(text_node):
     if text_node.text_type ==  TextType.TEXT:
         return LeafNode(value=text_node.text)

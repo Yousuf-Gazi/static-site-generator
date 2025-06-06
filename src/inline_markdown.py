@@ -3,6 +3,21 @@ import re
 from textnode import TextNode, TextType
 
 
+# Entry point: converts a markdown string into a list of typed text nodes.
+def text_to_textnodes(text):
+    nodes = [TextNode(text, TextType.TEXT)]     # Start with a single TEXT node
+
+    # Sequentially split and transform based on supported markdown features
+    nodes = split_nodes_image(nodes)
+    nodes = split_nodes_link(nodes)
+    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
+    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
+    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+
+    return nodes
+
+
+# Splits text nodes by a markdown delimiter (like **, _, `) and applies corresponding text type.
 def split_nodes_delimiter(old_nodes, delimiter, text_type):
     new_nodes = []
     for old_node in old_nodes:
@@ -29,18 +44,7 @@ def split_nodes_delimiter(old_nodes, delimiter, text_type):
     return new_nodes
 
 
-def extract_markdown_images(text):
-    pattern = r"!\[([^\[\]]*)\]\(([^\(\)]*)\)" 
-    matches = re.findall(pattern, text)
-    return matches
-
-
-def extract_markdown_links(text):
-    pattern = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
-    matches = re.findall(pattern, text)
-    return matches
-
-
+# Splits text nodes containing markdown images into individual image and plain text nodes.
 def split_nodes_image(old_nodes):
     new_nodes = []
     for old_node in old_nodes:
@@ -72,6 +76,7 @@ def split_nodes_image(old_nodes):
     return new_nodes
 
 
+# Splits text nodes containing markdown links into individual link and plain text nodes.
 def split_nodes_link(old_nodes):
     new_nodes = []
     for old_node in old_nodes:
@@ -103,12 +108,15 @@ def split_nodes_link(old_nodes):
     return new_nodes
 
 
-def text_to_textnodes(text):
-    nodes = [TextNode(text, TextType.TEXT)]     # making it a list, because other function needs list of nodes
-    nodes = split_nodes_image(nodes)
-    nodes = split_nodes_link(nodes)
-    nodes = split_nodes_delimiter(nodes, "**", TextType.BOLD)
-    nodes = split_nodes_delimiter(nodes, "_", TextType.ITALIC)
-    nodes = split_nodes_delimiter(nodes, "`", TextType.CODE)
+# Extracts markdown-style image references: ![alt](url)
+def extract_markdown_images(text):
+    pattern = r"!\[([^\[\]]*)\]\(([^\(\)]*)\)" 
+    matches = re.findall(pattern, text)
+    return matches
 
-    return nodes
+
+# Extracts markdown-style link references: [text](url)
+def extract_markdown_links(text):
+    pattern = r"(?<!!)\[([^\[\]]*)\]\(([^\(\)]*)\)"
+    matches = re.findall(pattern, text)
+    return matches

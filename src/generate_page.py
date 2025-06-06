@@ -5,13 +5,19 @@ from os.path import isfile
 from markdown_blocks import markdown_to_html_node
 
 
-def extract_title(markdown):
-    lines = markdown.split("\n")
-    for line in lines:
-        if line.startswith("# "):
-            title = line[2:]
-            return title
-    raise ValueError("invalid markdown: there's no title in the markdown")
+def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
+    dir_path_content_list = os.listdir(dir_path_content)
+    for filename in dir_path_content_list:
+        # construct full path
+        content_dir = os.path.join(dir_path_content, filename)
+        dest_dir = os.path.join(dest_dir_path, filename)
+
+        # check if not file find dir_path recursively, else generate the page
+        if os.path.isfile(content_dir):
+            dest_html_path = Path(dest_dir).with_suffix(".html")
+            generate_page(content_dir, template_path, dest_html_path, basepath)
+        else:
+            generate_pages_recursive(content_dir, template_path, dest_dir, basepath)
 
 
 def generate_page(from_path, template_path, dest_path, basepath):
@@ -49,16 +55,10 @@ def generate_page(from_path, template_path, dest_path, basepath):
         html_file.write(full_html_page)
 
 
-def generate_pages_recursive(dir_path_content, template_path, dest_dir_path, basepath):
-    dir_path_content_list = os.listdir(dir_path_content)
-    for filename in dir_path_content_list:
-        # construct full path
-        content_dir = os.path.join(dir_path_content, filename)
-        dest_dir = os.path.join(dest_dir_path, filename)
-
-        # check if not file find dir_path recursively, else generate the page
-        if os.path.isfile(content_dir):
-            dest_html_path = Path(dest_dir).with_suffix(".html")
-            generate_page(content_dir, template_path, dest_html_path, basepath)
-        else:
-            generate_pages_recursive(content_dir, template_path, dest_dir, basepath)
+def extract_title(markdown):
+    lines = markdown.split("\n")
+    for line in lines:
+        if line.startswith("# "):
+            title = line[2:]
+            return title
+    raise ValueError("invalid markdown: there's no title in the markdown")
