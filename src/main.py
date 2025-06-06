@@ -3,7 +3,7 @@ from os.path import isfile
 import shutil
 
 from copystatic import copy_files_recursively
-from generate_page import generate_page
+from generate_page import generate_page, generate_pages_recursive
 
 
 dir_path_static = "./static"
@@ -13,7 +13,6 @@ template_path = "./template.html"
 
 
 def main():
-    # test copy_static_to_public function
     print("Deleting public directory")
     if os.path.exists(dir_path_public):
         shutil.rmtree(dir_path_public)
@@ -23,10 +22,10 @@ def main():
 
     # generate page
     print("Generating page...")
-    generate_page(
-        os.path.join(dir_path_content, "index.md"),
+    generate_pages_recursive(
+        dir_path_content,
         template_path,
-        os.path.join(dir_path_public, "index.html"),
+        dir_path_public,
     )
 
 
